@@ -1,4 +1,4 @@
-# Links to NER datasets 
+# Links to conll-2003 datasets 
 
 
 I (Nicholas) used the conll-2003 dataset to train a spaCy and BERT model.
