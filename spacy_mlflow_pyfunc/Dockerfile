@@ -45,5 +45,7 @@ RUN /bin/bash -c "source activate mlflow-env-spacy" && \
 # Make our start script executable
 RUN ["chmod", "+x", "/root/start.sh"]
 
+EXPOSE 80 5000
+
 # Start the API
 ENTRYPOINT [ "/root/start.sh" ]
