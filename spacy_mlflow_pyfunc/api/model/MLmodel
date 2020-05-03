@@ -1,0 +1,12 @@
+flavors:
+  python_function:
+    artifacts:
+      nlp_model:
+        path: artifacts/spacy-nlp-model
+        uri: spacy-nlp-model
+    cloudpickle_version: 1.3.0
+    env: conda.yaml
+    loader_module: mlflow.pyfunc.model
+    python_model: python_model.pkl
+    python_version: 3.6.9
+utc_time_created: '2020-05-01 11:07:48.225457'
