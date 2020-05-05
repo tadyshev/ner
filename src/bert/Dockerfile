@@ -69,8 +69,7 @@ RUN /bin/bash -c "source activate mlflow-env-bert" && \
 	pip install -r /root/requirements.txt --no-cache-dir
 
 # Download trained BERT pytorch model
-RUN wget 'https://drive.google.com/file/d/1WcPQzU0r8cHqoYbfVoUECTvXMv_5qm4d/view?usp=sharing' -O ./model/artifacts/bert-ner-model/pytorch_model.bin -nc
-
+RUN wget 'https://www.dropbox.com/s/8hhn2l82cfj9ll5/pytorch_model.bin?raw=1' -O ./model/artifacts/bert-ner-model/pytorch_model.bin -nc
 
 # Make our start script executable
 RUN ["chmod", "+x", "/root/start.sh"]
