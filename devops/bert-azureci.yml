@@ -4,7 +4,7 @@ trigger:
       - '*'
   
 jobs:
-- job: train_BERT_model
+- job: package_BERT_model
   timeoutInMinutes: 500 # how long to run the job before automatically cancelling
   pool:
     name: Hosted Ubuntu 1604
