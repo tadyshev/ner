@@ -28,29 +28,6 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
 # Set the path env to include miniconda
 ENV PATH /root/miniconda/bin:$PATH
 
-
-
-
-# Training environment
-#FROM conda-env as train-env
-
-# Copy over model training code into the container
-#COPY ./train /root
-
-# Create a conda environment from the specified conda.yaml
-#RUN conda env create --file /root/conda.yaml
-
-# Add to .bashrc
-#RUN echo "source activate mlflow-env-bert" >> .bashrc
-
-# Make our train script executable
-#RUN ["chmod", "+x", "/root/train.sh"]
-
-# Run the training script
-#RUN ./train.sh
-
-
-
 # Serving environment
 FROM conda-env 
 
@@ -58,7 +35,7 @@ FROM conda-env
 COPY ./api /root
 
 # Create a conda environment from the specified conda.yaml
-RUN conda env create --file /root/model/conda.yaml
+RUN conda env create --file /root/model/mlflow_env.yml
 
 # Add to .bashrc
 RUN echo "source activate mlflow-env-bert" >> .bashrc
@@ -69,7 +46,9 @@ RUN /bin/bash -c "source activate mlflow-env-bert" && \
 	pip install -r /root/requirements.txt --no-cache-dir
 
 # Download trained BERT pytorch model
-RUN wget 'https://www.dropbox.com/s/8hhn2l82cfj9ll5/pytorch_model.bin?raw=1' -O ./model/artifacts/bert-ner-model/pytorch_model.bin -nc
+
+RUN wget 'https://aisc-mlops-bert.s3.amazonaws.com/model.pt' -O ./model/data/pyfunc_data/model.pt -nc
+
 
 # Make our start script executable
 RUN ["chmod", "+x", "/root/start.sh"]

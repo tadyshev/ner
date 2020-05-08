@@ -1,14 +1,15 @@
-from flask import Flask, request, jsonify, render_template
+
+from flask import Flask, request, jsonify, render_template, url_for
 import mlflow.pyfunc
 import pandas as pd
 import json
+import time
+import string
 
-# Name of the apps module package
 app = Flask(__name__)
 
 # Load in the model at app startup
 model = mlflow.pyfunc.load_model('./model')
-
 
 @app.route('/', methods=['GET', 'POST'])
 def home():

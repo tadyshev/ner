@@ -1,0 +1,60 @@
+#main {
+    font-family: 'Montserrat', sans-serif;
+    color:black;
+    background-image: url("../images/black-hexagons.jpg");
+    background-color: black ;
+    height: 1080px;
+}
+#top-bar {
+    width: 100%;
+}
+
+.container-fluid {
+    background: transparent;
+}
+#aisc-logo {
+    height: 50px;
+}
+
+#textbox {
+    width: 80%;
+}
+
+.row {
+  height: 5rem;
+}
+
+.gold-bg {
+    background: rgb(219, 191, 119);
+}
+
+.gold-font {
+    color: rgb(219, 191, 119);
+}
+
+
+.b-loc{
+    background-color: deepskyblue;
+}
+
+.b-misc {
+    background-color: limegreen;
+}
+.b-org {
+    background-color: #cd7491;
+}
+.b-per {
+    background-color: #f05e0a;
+}
+.i-loc {
+    background-color: #0091ff;
+}
+.i-misc {
+    background-color: #309430;
+}
+.i-org {
+    background-color: #cd4a7d;
+}
+.i-per {
+    background-color: #f00a0a;
+}
