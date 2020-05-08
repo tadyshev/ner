@@ -1,3 +1,4 @@
+
 from flask import Flask, request, jsonify, render_template, url_for
 import mlflow.pyfunc
 import pandas as pd
@@ -5,44 +6,49 @@ import json
 import time
 import string
 
-
 app = Flask(__name__)
 
 # Load in the model at app startup
 model = mlflow.pyfunc.load_model('./model')
 
-
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template('home.html')
 
-@app.route("/predict")
+	results = None
+	if request.method == 'POST':
+		text = request.form.get('text')
+		if text:
+			# Format the request data in a DataFrame
+			inf_df = pd.DataFrame(data={'text':[text]})
+
+			# Get model prediction - convert from np to list
+			results = model.predict(inf_df).tolist()
+
+			# Log the prediction
+			print({'response': results})
+		return jsonify(results)
+
+	return render_template('home.html')
+
+# Prediction endpoint
+@app.route('/predict', methods=['GET'])
 def predict():
-    params = request.args.to_dict()
+	print(request)
+	req = request.get_json()
+	
+	# Log the request
+	print({'request': req})
 
-    text = pd.DataFrame(data={'text': [params['text']]})
+	# Format the request data in a DataFrame
+	inf_df = pd.DataFrame(data={'text':req['text']})
 
-    predictions = model.predict(text)
+	# Get model prediction - convert from np to list
+	pred = model.predict(inf_df).tolist()
 
-    print(predictions)
+	# Log the prediction
+	print({'response': pred})
 
-    html_text = ''
-    for i, (token, label) in enumerate(zip(*predictions)):
-        if token in ['[CLS]', '[SEP]']:
-            continue
-        if token[:2] == '##':
-            token = token[2:]
-        elif token in string.punctuation:
-            pass
-        else:
-            token = f" {token}"
-        if label != 'O':
-            html_text += f"<span class='{label.lower()}'>{token}</span>"
-        else:
-            html_text += f"{token}"
+	# Return prediction as reponse
+	return jsonify(pred)
 
-    return html_text
-
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+app.run(host='0.0.0.0', port=5000)

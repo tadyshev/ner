@@ -28,9 +28,6 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
 # Set the path env to include miniconda
 ENV PATH /root/miniconda/bin:$PATH
 
-
-
-
 # Serving environment
 FROM conda-env 
 
@@ -49,7 +46,9 @@ RUN /bin/bash -c "source activate mlflow-env-bert" && \
 	pip install -r /root/requirements.txt --no-cache-dir
 
 # Download trained BERT pytorch model
+
 RUN wget 'https://aisc-mlops-bert.s3.amazonaws.com/model.pt' -O ./model/data/pyfunc_data/model.pt -nc
+
 
 # Make our start script executable
 RUN ["chmod", "+x", "/root/start.sh"]
