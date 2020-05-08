@@ -35,10 +35,10 @@ COPY start.sh /root
 RUN conda env create --file /root/model/conda.yaml
 
 # Add to .bashrc
-RUN echo "source activate mlflow-env-spacy" >> .bashrc
+RUN echo "source activate mlflow-env-bert" >> .bashrc
 
 # Pip install api requirements into the conda env
-RUN /bin/bash -c "source activate mlflow-env-spacy" && \
+RUN /bin/bash -c "source activate mlflow-env-bert" && \
 	pip install --upgrade pip setuptools && \
 	pip install -r /root/requirements.txt --no-cache-dir
 

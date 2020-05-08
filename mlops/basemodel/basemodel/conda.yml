@@ -1,0 +1,9 @@
+name: basemodel
+channels:
+  - conda-forge
+dependencies:
+  - python=3.6.9
+  - pip
+  - pip:
+    - mlflow==1.8.0
+    - spacy==2.2.4

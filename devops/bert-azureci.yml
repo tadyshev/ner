@@ -1,0 +1,37 @@
+trigger:
+  branches:
+    include:
+      - '*'
+  
+jobs:
+- job: package_BERT_model
+  timeoutInMinutes: 500 # how long to run the job before automatically cancelling
+  pool:
+    name: Hosted Ubuntu 1604
+  steps:
+  - task: Docker@0     
+    displayName: 'Build BERT mlflow image'
+    inputs:
+      dockerFile: '**/src/bert/Dockerfile'
+      buildArguments: '--build-arg VERSION=$(Build.SourceVersion)'
+      defaultContext: true
+      imageName: 'ditadi/bertmodel-ner:$(Build.SourceBranchName)'
+      includeSourceTags: true
+      includeLatestTag: true
+  - task: Docker@1
+    displayName: Login
+    inputs:
+        containerregistrytype: 'container Registry'
+        dockerRegistryEndpoint: docker-hub-ditadi # authorized DockerHub service connection name in Azure DevOps
+        command: login 
+  - task: Docker@1
+    displayName: 'Push BERT mlflow image with the name of the branch as a tag'
+    inputs:
+      command: push an image
+      imageName: 'ditadi/bertmodel-ner:$(Build.SourceBranchName)' 
+  - task: Docker@1
+    displayName: 'Push BERT mlflow image with latest tag'
+    inputs:
+      command: push an image
+      imageName: 'ditadi/bertmodel-ner:latest' 
+
