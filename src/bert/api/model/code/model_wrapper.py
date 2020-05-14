@@ -10,15 +10,24 @@ class ModelWrapper():
 
   def predict(self, data):
 
-    input_ids = torch.tensor([self._tokenizer.encode(data.iloc[0]['text'], add_special_tokens=True)])
+    splits = data.iloc[0]['text'].split(" ")[:250]
 
-    outputs = self._model(input_ids)[0].squeeze()
-    output_ids = torch.argmax(outputs, dim=1)
+    token_list, tags = [], []
 
-    token_list = self._tokenizer.convert_ids_to_tokens(input_ids.squeeze())
+    chunk_size = 75
+
+    for i in range(0, len(splits), chunk_size):
+
+      input_ids = torch.tensor([self._tokenizer.encode(" ".join(splits[i:i+chunk_size]), add_special_tokens=True)])
+
+      outputs = self._model(input_ids)[0].squeeze()
+      output_ids = torch.argmax(outputs, dim=1)
+
+      token_list.extend(self._tokenizer.convert_ids_to_tokens(input_ids.squeeze()))
+      tags.extend([self._label_dict[str(oid.item())] for oid in output_ids])
     
 
-    return token_list, [self._label_dict[str(oid.item())] for oid in output_ids]
+    return token_list, tags
 
 
 def _load_pyfunc(path):
