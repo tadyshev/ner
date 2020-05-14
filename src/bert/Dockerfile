@@ -7,7 +7,7 @@ ENV LC_ALL=C.UTF-8 LANG=C.UTF-8
 # Allow apt-get install without interaction from console
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Set the workign directory to /root
+# Set the working directory to /root
 WORKDIR /root
 
 # System updates and configurations
@@ -31,23 +31,32 @@ ENV PATH /root/miniconda/bin:$PATH
 # Serving environment
 FROM conda-env 
 
-# Copy over model and API code into the container
-COPY ./api /root
+# Copy over dependency file to cache (hopefully) core packages
+COPY ./api/model/mlflow_env.yml /root/mlflow_env.yml 
+
 
 # Create a conda environment from the specified conda.yaml
-RUN conda env create --file /root/model/mlflow_env.yml
+RUN conda env create --file /root/mlflow_env.yml
 
 # Add to .bashrc
 RUN echo "source activate mlflow-env-bert" >> .bashrc
+
+
+COPY ./api/requirements.txt /root/requirements.txt
 
 # Pip install api requirements into the conda env
 RUN /bin/bash -c "source activate mlflow-env-bert" && \
 	pip install --upgrade pip setuptools && \
 	pip install -r /root/requirements.txt --no-cache-dir
 
-# Download trained BERT pytorch model
 
-RUN wget 'https://aisc-mlops-bert.s3.amazonaws.com/model.pt' -O ./model/data/pyfunc_data/model.pt -nc
+# Download trained BERT pytorch model
+RUN wget 'https://aisc-mlops-bert.s3.amazonaws.com/model.pt' -O /root/model.pt -nc
+
+# Copy over everything else into the container
+COPY ./api /root
+
+RUN ln -s /root/model.pt ./model/data/pyfunc_data/model.pt
 
 
 # Make our start script executable

@@ -1,11 +1,12 @@
-#main {
+.main {
     font-family: 'Montserrat', sans-serif;
     color:black;
     background-image: url("../images/black-hexagons.jpg");
+    background-repeat: repeat-y;
     background-color: black ;
     height: 1080px;
 }
-#top-bar {
+#top-bar 
     width: 100%;
 }
 
