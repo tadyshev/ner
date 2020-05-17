@@ -20,6 +20,8 @@ def home():
 
 @app.route("/predict")
 def predict():
+
+
     params = request.args.to_dict()
 
     text = pd.DataFrame(data={'text': [params['text']]})
@@ -28,7 +30,14 @@ def predict():
 
     print(predictions)
 
-    return add_html_tags(predictions)
+    if request.method == 'GET':
+        return add_html_tags(predictions)
+
+    if request.method == 'POST':
+        return jsonify([add_html_tags(predictions)])
+
+    return ''
+
 
 categories = ['us', 'world', 'politics', 'business', 'opinion', 'health', 'entertainment', 'style', 'travel']
 
