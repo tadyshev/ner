@@ -1,6 +1,12 @@
 # NER for AISC ML Ops 
 
-A deployable Named Entity Recognition tool.  
+A deployable Named Entity Recognition tool. 
+
+```bash
+cd src/bert
+make build
+make run
+```
 
 ### Model
 - spaCy as base model
