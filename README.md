@@ -6,6 +6,7 @@ A deployable Named Entity Recognition tool.
 cd src/bert
 make build
 make run
+# open localhost:5000
 ```
 
 ### Model
