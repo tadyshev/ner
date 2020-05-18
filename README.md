@@ -7,13 +7,13 @@ A deployable Named Entity Recognition tool.
 - LSTMs/BERT as advanced model
 
 ### Packaging
-- MLFlow
+- MLFlow with pyfunc
 
 ### Cloud platform
-- AWS ec2 free tier
+- Azure App Service for containers
 
 ### Dataset
 - Wikigold
 
 ### Devops
-- Continuous Integration [![Build Status](https://dev.azure.com/ditadi/ner/_apis/build/status/ditadi.ner?branchName=master)](https://dev.azure.com/ditadi/ner/_build/latest?definitionId=1&branchName=master)
+- [![Build Status](https://dev.azure.com/ditadi/ner/_apis/build/status/ditadi.ner?branchName=master)](https://dev.azure.com/ditadi/ner/_build/latest?definitionId=1&branchName=master)
