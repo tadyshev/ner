@@ -21,6 +21,7 @@ make run
 
 ### Dataset
 - Wikigold
+- BERT was pretrained on Wikigold with model cached on [S3](https://github.com/ditadi/ner/blob/master/src/bert/Dockerfile#L54)
 
 ### Devops
 - [![Build Status](https://dev.azure.com/ditadi/ner/_apis/build/status/ditadi.ner?branchName=master)](https://dev.azure.com/ditadi/ner/_build/latest?definitionId=1&branchName=master)
