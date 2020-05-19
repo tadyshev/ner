@@ -24,3 +24,5 @@ make run
 
 ### Devops
 - [![Build Status](https://dev.azure.com/ditadi/ner/_apis/build/status/ditadi.ner?branchName=master)](https://dev.azure.com/ditadi/ner/_build/latest?definitionId=1&branchName=master)
+- [Interactive Demo](https://bertmodel-ner.azurewebsites.net/)
+- [NER on CNN Headlines](https://bertmodel-ner.azurewebsites.net/headlines)
