@@ -53,6 +53,8 @@ RUN /bin/bash -c "source activate mlflow-env-bert" && \
 # Download trained BERT pytorch model
 RUN wget 'https://aisc-mlops-bert.s3.amazonaws.com/model.pt' -O /root/model.pt -nc
 
+RUN pip install newsapi-python
+
 # Copy over everything else into the container
 COPY ./api /root
 
