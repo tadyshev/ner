@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, render_template, url_for
 import mlflow.pyfunc
 import pandas as pd
 import requests
+from newsapi import NewsApiClient
 
 import json
 import time
@@ -21,7 +22,6 @@ def home():
 @app.route("/predict")
 def predict():
 
-
     params = request.args.to_dict()
 
     text = pd.DataFrame(data={'text': [params['text']]})
@@ -34,32 +34,30 @@ def predict():
         return add_html_tags(predictions)
 
     if request.method == 'POST':
-        return jsonify([add_html_tags(predictions)])
+        return jsonify([predictions])
 
     return ''
 
 
-categories = ['us', 'world', 'politics', 'business', 'opinion', 'health', 'entertainment', 'style', 'travel']
-
-@app.route("/cnn")
-def cnn():
+@app.route("/news")
+def news():
     params = request.args.to_dict()
 
+    api_client = NewsApiClient(api_key='1e0334ac55a24c4d937ccfcccb183e20')
+
     if 'category' in params:
-        url = f'https://search.api.cnn.io/content?size=5&q=*&type=article&sort=newest&from=0&category={params["category"]}'
+        results = api_client.get_top_headlines(country='us',
+                                               category=params['category'],
+                                               page_size=5,
+                                               )
     else:
-        url = 'https://search.api.cnn.io/content?size=5&q=*&type=article&sort=newest&from=0'
+        return "No category specified"
+
     try:
-        headlines = [r['headline'] for r in requests.get(url).json()['result']]
+        headlines = [a['title'] for a in results['articles']]
+    except KeyError:
+        print("Key error")
 
-    except KeyError as e:
-        print("KeyError", e)
-        return ""
-    except IndexError as e:
-        print("IndexError", e)
-        return ""
-
-    print(headlines)
     tagged = []
     for h in headlines:
         text = pd.DataFrame(data={'text': [h]})
